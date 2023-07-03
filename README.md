@@ -73,7 +73,7 @@ Cloudinary is a comprehensive cloud service for media management.
 
 After considering the trade-offs, I recommend **Multer with Sharp** for projects with basic media handling needs because of their efficiency and versatility.
 
-#### Additional Packages
+### 1.3 Additional Packages
 
 For every future Express.js project, I recommend incorporating the following additional packages, which improve the project's robustness and maintainability:
 
