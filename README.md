@@ -1,10 +1,10 @@
 # Express.js Project Setup
 
-During the research of the Express.js ecosystem, I focused on two critical areas for our next project: the admin panel implementation and handling of media files. I considered various solutions, looking for the ones that provide robust functionality, flexibility, and strong community support.
+During my research of the Express.js ecosystem, I focused on two critical areas for our next project: the admin panel implementation and handling of media files. I considered various solutions, looking for ones that provide robust functionality, flexibility, and strong community support.
 
 ## 1) Admin Panel Implementation
 
-For the admin panel, I considered **AdminJS** (via @adminjs/express) and **Forest Express** (via forest-express).
+For the admin panel, I considered two options: **AdminJS** (via @adminjs/express) and **Forest Express** (via forest-express).
 
 ### AdminJS
 
@@ -35,11 +35,11 @@ Forest Express shines in handling complex data structures and relationships with
 - No built-in TypeScript declarations
 - Slightly less community support (around 6k weekly npm downloads)
 
-My choice would be **AdminJS** due to its flexibility, TypeScript support, and stronger community acceptance.
+After weighing the pros and cons, my choice for this project would be **AdminJS** due to its flexibility, TypeScript support, and stronger community acceptance.
 
 ## 2) Media Files Handling
 
-To handle media files, I weighed the pros and cons of **Multer with Sharp** and **Cloudinary**.
+To handle media files, I compared **Multer with Sharp** and **Cloudinary**.
 
 ### Multer with Sharp
 
@@ -69,11 +69,11 @@ Cloudinary is a comprehensive cloud service for media management.
 - Paid service beyond the free tier
 - Could be overkill for simpler media handling needs
 
-Considering the trade-offs, I would go with **Multer with Sharp** for projects with basic media handling needs due to their efficiency and versatility.
+Considering the trade-offs, my choice would be **Multer with Sharp** for projects with basic media handling needs due to their efficiency and versatility.
 
 ## Additional Packages
 
-To the given list of packages (`bcryptjs`, `dotenv`, `express-validator`, `jsonwebtoken`, `mongoose`, `swagger-jsdoc`, `swagger-ui-express`, `eslint`, `nodemon`, `prettier`), here's a brief description of each package and why it would be beneficial for our project:
+In every next Express.js project, I would like to incorporate the following additional packages, each of which enhances the robustness and maintainability of the project:
 
 - **dotenv:** Manages environment variables, increasing project security and configurability.
 - **nodemon:** Enhances development productivity by automatically restarting the server after any file changes.
@@ -83,4 +83,4 @@ To the given list of packages (`bcryptjs`, `dotenv`, `express-validator`, `jsonw
 - **eslint:** Ensures code quality and consistency with predefined rules.
 - **prettier:** Automates and enforces a consistent code formatting style.
 
-Each package contributes to the robustness and maintainability of the project, and their combined use results in a solid foundation for any Express.js application.
+## Time spent on this research: 2.5 hours
