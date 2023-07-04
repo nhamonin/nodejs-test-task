@@ -1,4 +1,10 @@
-import { Controller, Post, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  UseGuards,
+  Request,
+  HttpStatus,
+} from '@nestjs/common';
 
 import { Request as ExpressRequest } from 'express';
 
@@ -17,6 +23,11 @@ export class AuthController {
   @Post('login')
   @UseGuards(LocalAuthGuard)
   async login(@Request() req: RequestWithUser) {
-    return req.user;
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'User logged in successfully',
+      user: req.user,
+      access_token: await this.authService.generateJwt(req.user),
+    };
   }
 }
