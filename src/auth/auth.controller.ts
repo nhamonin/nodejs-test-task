@@ -8,7 +8,7 @@ import {
 
 import { Request as ExpressRequest } from 'express';
 
-import { AuthService } from './auth.service';
+import { TokenService } from 'src/token/token.service';
 import { LocalAuthGuard } from './local-auth.guard';
 import { User } from 'src/user/entities/user.entity';
 
@@ -18,7 +18,7 @@ interface RequestWithUser extends ExpressRequest {
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private tokenService: TokenService) {}
 
   @Post('login')
   @UseGuards(LocalAuthGuard)
@@ -27,7 +27,10 @@ export class AuthController {
       statusCode: HttpStatus.OK,
       message: 'User logged in successfully',
       user: req.user,
-      access_token: await this.authService.generateJwt(req.user),
+      access_token: await this.tokenService.generateJwt(
+        { username: req.user.username, sub: req.user.id },
+        { expiresIn: '60s' },
+      ),
     };
   }
 }
