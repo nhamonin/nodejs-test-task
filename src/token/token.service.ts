@@ -9,4 +9,8 @@ export class TokenService {
   async generateJwt(payload: object, options?: JwtSignOptions) {
     return this.jwtService.signAsync(payload, options);
   }
+
+  async verifyAsync(token: string) {
+    return this.jwtService.verifyAsync(token);
+  }
 }
