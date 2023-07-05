@@ -1,5 +1,21 @@
-import './App.css';
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Account from './pages/Account';
 
-export default function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
-}
+const App: React.FC = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;
