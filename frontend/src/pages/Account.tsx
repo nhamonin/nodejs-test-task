@@ -1,6 +1,6 @@
 const Account = () => {
   return (
-    <div>
+    <div className="h-full">
       <h1>Account</h1>
     </div>
   );

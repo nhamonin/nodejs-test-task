@@ -2,9 +2,8 @@ import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-2xl bg-blue-300 p-8">
+    <div className="flex flex-col justify-center items-center h-full text-2xl bg-blue-300 p-8">
       <h1 className="mb-4 text-3xl font-bold">Welcome to Node.js Test Task!</h1>
-
       <div className="mt-4">
         <Link
           to="/login"

@@ -98,7 +98,7 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-blue-300 p-8">
+    <div className="flex flex-col items-center justify-center h-full bg-blue-300 p-8">
       <h1 className="text-3xl font-bold mb-4">Register</h1>
       {message && (
         <div className="my-4 p-2 bg-red-100 border-l-4 border-red-500 text-red-700 rounded mx-auto text-center">
