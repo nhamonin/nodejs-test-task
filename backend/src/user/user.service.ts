@@ -2,6 +2,8 @@ import {
   Injectable,
   ConflictException,
   UnauthorizedException,
+  NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -11,9 +13,11 @@ import { instanceToPlain } from 'class-transformer';
 import { TokenExpiredError } from 'jsonwebtoken';
 
 import { User } from './entities/user.entity';
-import { CreateUserDto } from './dto/create-user.dto';
 import { MailerService } from 'src/mailer/mailer.service';
 import { TokenService } from 'src/token/token.service';
+import { ImageService } from '../image/image.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -22,6 +26,7 @@ export class UserService {
     private usersRepository: Repository<User>,
     private readonly mailerService: MailerService,
     private readonly tokenService: TokenService,
+    private readonly imageService: ImageService,
   ) {}
 
   async register(createUserDto: CreateUserDto): Promise<User> {
@@ -74,5 +79,62 @@ export class UserService {
         throw error;
       }
     }
+  }
+
+  async update(
+    userId: string,
+    updateUserDto: UpdateUserDto,
+    file: Express.Multer.File,
+  ): Promise<User> {
+    const user = await this.usersRepository.findOne({
+      where: { id: +userId },
+    });
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const { username, email, password, avatar } = updateUserDto;
+
+    if (username) {
+      const existingUser = await this.usersRepository.findOne({
+        where: { username },
+      });
+      if (existingUser && existingUser.id !== +userId) {
+        throw new ConflictException('Username already exists');
+      }
+      user.username = username;
+    }
+
+    if (email) {
+      const existingUser = await this.usersRepository.findOne({
+        where: { email },
+      });
+      if (existingUser && existingUser.id !== +userId) {
+        throw new ConflictException('Email already exists');
+      }
+      user.email = email;
+    }
+
+    if (password) {
+      user.password = await bcrypt.hash(password, 10);
+    }
+
+    if (avatar) {
+      if (!file) {
+        throw new BadRequestException(
+          'File must be provided when updating avatar',
+        );
+      }
+
+      const avatarPath = await this.imageService.saveImage(
+        file.originalname,
+        file.buffer,
+      );
+      user.avatar = avatarPath;
+    }
+
+    const updatedUser = await this.usersRepository.save(user);
+
+    return updatedUser;
   }
 }

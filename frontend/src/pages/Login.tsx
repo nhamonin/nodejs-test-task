@@ -10,12 +10,16 @@ const Login = () => {
   if (!authContext) {
     return null;
   }
-  const { setAccessToken, setLoggedIn } = authContext;
+  const { setAccessToken, setUserId, setLoggedIn } = authContext;
 
-  const handleLoginSuccess = (accessToken: string | undefined) => {
-    if (!accessToken) return;
+  const handleLoginSuccess = (
+    accessToken: string | undefined,
+    userId: string | undefined,
+  ) => {
+    if (!accessToken || !userId) return;
 
     setAccessToken(accessToken);
+    setUserId(userId);
     setLoggedIn(true);
     navigate('/account');
   };

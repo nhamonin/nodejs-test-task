@@ -38,7 +38,7 @@ interface FormProps {
   fields: FormField[];
   endpoint: string;
   buttonLabel: string;
-  onSuccess: (accessToken?: string) => void;
+  onSuccess: (accessToken?: string, user_id?: string) => void;
   multipart?: boolean;
 }
 

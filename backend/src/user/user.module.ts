@@ -7,9 +7,15 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { MailerModule } from 'src/mailer/mailer.module';
 import { TokenModule } from 'src/token/token.module';
+import { ImageModule } from '../image/image.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), MailerModule, TokenModule],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    MailerModule,
+    TokenModule,
+    ImageModule,
+  ],
   controllers: [UserController, EmailVerificationController],
   providers: [UserService],
   exports: [UserService, TypeOrmModule],
