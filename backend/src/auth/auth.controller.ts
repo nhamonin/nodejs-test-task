@@ -24,7 +24,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   async login(@Request() req: RequestWithUser) {
     return {
-      statusCode: HttpStatus.OK,
+      statusCode: HttpStatus.CREATED,
       message: 'User logged in successfully',
       user: req.user,
       access_token: await this.tokenService.generateJwt(

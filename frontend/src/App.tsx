@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -12,7 +13,7 @@ const App = () => {
         <Header />
         <main
           className="flex-grow bg-white overflow-auto"
-          style={{ height: 'calc(100vh - 600px)' }}
+          style={{ height: 'calc(100vh - 72px)' }}
         >
           <Routes>
             <Route path="/login" element={<Login />} />
