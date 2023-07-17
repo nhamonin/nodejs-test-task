@@ -78,7 +78,7 @@ const Form = ({
             if (inputs[i].value) {
               data.append(field.name, (inputs[i].value as FileList)[0]);
             }
-          } else {
+          } else if (inputs[i].value !== '') {
             data.append(field.name, inputs[i].value as string);
           }
         });
@@ -108,8 +108,8 @@ const Form = ({
         };
       } else {
         inputs.forEach((input) => input.reset());
-        const { access_token, user } = await response.json();
-        onSuccess(access_token, user.id);
+        const { access_token, user_id } = await response.json();
+        onSuccess(access_token, user_id);
       }
     } catch (error: any) {
       console.log(error);

@@ -95,7 +95,7 @@ export class UserService {
 
     const { username, email, password, avatar } = updateUserDto;
 
-    if (username) {
+    if (username && username !== user.username) {
       const existingUser = await this.usersRepository.findOne({
         where: { username },
       });
@@ -105,7 +105,7 @@ export class UserService {
       user.username = username;
     }
 
-    if (email) {
+    if (email && email !== user.email) {
       const existingUser = await this.usersRepository.findOne({
         where: { email },
       });
@@ -113,6 +113,8 @@ export class UserService {
         throw new ConflictException('Email already exists');
       }
       user.email = email;
+      user.isVerified = false;
+      this.mailerService.sendVerificationEmail(user);
     }
 
     if (password) {
@@ -135,6 +137,6 @@ export class UserService {
 
     const updatedUser = await this.usersRepository.save(user);
 
-    return updatedUser;
+    return instanceToPlain(updatedUser) as User;
   }
 }
