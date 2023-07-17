@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 interface InputProps {
   value: string;
@@ -40,21 +39,14 @@ interface FormProps {
   fields: FormField[];
   endpoint: string;
   buttonLabel: string;
-  onSuccessNavigateTo: string;
+  onSuccess: (accessToken?: string) => void;
 }
 
-const Form = ({
-  fields,
-  endpoint,
-  buttonLabel,
-  onSuccessNavigateTo,
-}: FormProps) => {
-  const navigate = useNavigate();
-
+const Form = ({ fields, endpoint, buttonLabel, onSuccess }: FormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const inputs = fields.map((field) => useInput(''));
+  const inputs = fields.map((_) => useInput(''));
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
@@ -87,8 +79,8 @@ const Form = ({
         };
       } else {
         inputs.forEach((input) => input.reset());
-        setMessage('Success!');
-        navigate(onSuccessNavigateTo);
+        const { access_token } = await response.json();
+        onSuccess(access_token);
       }
     } catch (error: any) {
       console.log(error);

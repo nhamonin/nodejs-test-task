@@ -1,30 +1,48 @@
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+
+import { AuthContext } from '../contexts/AuthProvider';
 
 const Header = () => {
+  const authContext = useContext(AuthContext);
+  if (!authContext) {
+    return null;
+  }
+  const { isLoggedIn } = authContext;
+
+  const renderNavLink = (to: string, label: string) => (
+    <li>
+      <NavLink
+        to={to}
+        className={({ isActive }) =>
+          `text-white ${isActive ? 'font-bold underline' : ''}`
+        }
+        end
+      >
+        {label}
+      </NavLink>
+    </li>
+  );
+
   return (
     <nav className="flex items-center justify-between p-5 bg-blue-500">
-      <h1 className="text-2xl font-bold text-white">My App</h1>
+      <div className="flex items-center space-x-4">
+        <NavLink to="/" className={'text-2xl font-bold'} end>
+          My App
+        </NavLink>
+      </div>
       <ul className="flex items-center space-x-4">
-        <li>
-          <Link to="/" className="text-white hover:text-gray-200">
-            Home
-          </Link>
-        </li>
-        <li>
-          <Link to="/login" className="text-white hover:text-gray-200">
-            Login
-          </Link>
-        </li>
-        <li>
-          <Link to="/register" className="text-white hover:text-gray-200">
-            Register
-          </Link>
-        </li>
-        <li>
-          <Link to="/account" className="text-white hover:text-gray-200">
-            Account
-          </Link>
-        </li>
+        {!isLoggedIn ? (
+          <>
+            {renderNavLink('/login', 'Login')}
+            {renderNavLink('/register', 'Register')}
+          </>
+        ) : (
+          <>
+            {renderNavLink('/account', 'Account')}
+            {renderNavLink('/logout', 'Logout')}
+          </>
+        )}
       </ul>
     </nav>
   );
