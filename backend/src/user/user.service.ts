@@ -93,7 +93,7 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
 
-    const { username, email, password, avatar } = updateUserDto;
+    const { username, email, password } = updateUserDto;
 
     if (username && username !== user.username) {
       const existingUser = await this.usersRepository.findOne({
@@ -121,13 +121,7 @@ export class UserService {
       user.password = await bcrypt.hash(password, 10);
     }
 
-    if (avatar) {
-      if (!file) {
-        throw new BadRequestException(
-          'File must be provided when updating avatar',
-        );
-      }
-
+    if (file) {
       const avatarPath = await this.imageService.saveImage(
         file.originalname,
         file.buffer,

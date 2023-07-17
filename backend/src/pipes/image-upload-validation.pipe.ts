@@ -5,14 +5,14 @@ import {
 } from '../image/image-upload.constants';
 
 export class ImageUploadValidationPipe implements PipeTransform {
-  transform(file: Express.Multer.File) {
-    if (file && file.size > MAX_FILE_SIZE) {
+  transform(avatar: Express.Multer.File) {
+    if (avatar && avatar.size > MAX_FILE_SIZE) {
       throw new BadRequestException('File too large');
     }
-    if (file && !VALID_FILE_TYPES.includes(file.mimetype)) {
+    if (avatar && !VALID_FILE_TYPES.includes(avatar.mimetype)) {
       throw new BadRequestException('Invalid file type');
     }
 
-    return file;
+    return avatar;
   }
 }
