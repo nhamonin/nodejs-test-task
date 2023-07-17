@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
 
-interface InputProps {
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-const useInput = (
-  initialValue: string,
-): { value: string; bind: InputProps; reset: () => void } => {
-  const [value, setValue] = useState<string>(initialValue);
+const useInput = (initialValue: string | FileList | null, type: string) => {
+  const [value, setValue] = useState<string | FileList | null>(initialValue);
 
   return {
     value,
-    reset: () => setValue(''),
+    reset: () => setValue(type === 'file' ? null : ''),
     bind: {
-      value,
+      value: type !== 'file' ? (value as string) : undefined,
+      files: type === 'file' ? (value as FileList) : undefined,
       onChange: (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value);
+        if (type === 'file') {
+          setValue(event.target.files);
+        } else {
+          setValue(event.target.value);
+        }
       },
     },
   };
@@ -33,6 +31,7 @@ interface FormField {
   name: string;
   type: string;
   label: string;
+  required?: boolean;
 }
 
 interface FormProps {
@@ -40,37 +39,65 @@ interface FormProps {
   endpoint: string;
   buttonLabel: string;
   onSuccess: (accessToken?: string) => void;
+  multipart?: boolean;
 }
 
-const Form = ({ fields, endpoint, buttonLabel, onSuccess }: FormProps) => {
+const Form = ({
+  fields,
+  endpoint,
+  buttonLabel,
+  onSuccess,
+  multipart = false,
+}: FormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
 
-  const inputs = fields.map((_) => useInput(''));
+  const inputs = fields.map((field) =>
+    useInput(field.type === 'file' ? null : '', field.type),
+  );
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
   ): Promise<void> => {
     e.preventDefault();
 
-    if (inputs.some((input) => !input.value)) {
-      setMessage('Please fill all fields');
+    if (fields.some((field, i) => field.required && !inputs[i].value)) {
+      setMessage('Please fill all required fields');
       return;
     }
 
-    const data = Object.fromEntries(
-      fields.map((field, i) => [field.name, inputs[i].value]),
-    );
-
     setIsLoading(true);
     try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      });
+      let response;
+      if (multipart) {
+        const data = new FormData();
+        fields.forEach((field, i) => {
+          if (field.type === 'file') {
+            if (inputs[i].value) {
+              data.append(field.name, (inputs[i].value as FileList)[0]);
+            }
+          } else {
+            data.append(field.name, inputs[i].value as string);
+          }
+        });
+
+        response = await fetch(endpoint, {
+          method: 'POST',
+          body: data,
+        });
+      } else {
+        const data = Object.fromEntries(
+          fields.map((field, i) => [field.name, inputs[i].value as string]),
+        );
+
+        response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+      }
 
       if (!response.ok) {
         throw {
@@ -80,7 +107,7 @@ const Form = ({ fields, endpoint, buttonLabel, onSuccess }: FormProps) => {
       } else {
         inputs.forEach((input) => input.reset());
         const { access_token } = await response.json();
-        onSuccess(access_token);
+        onSuccess(access_token || null);
       }
     } catch (error: any) {
       console.log(error);

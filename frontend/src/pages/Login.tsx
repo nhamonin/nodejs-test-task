@@ -23,8 +23,18 @@ const Login = () => {
   return (
     <Form
       fields={[
-        { name: 'usernameOrEmail', type: 'text', label: 'Username or Email' },
-        { name: 'password', type: 'password', label: 'Password' },
+        {
+          name: 'usernameOrEmail',
+          type: 'text',
+          label: 'Username or Email',
+          required: true,
+        },
+        {
+          name: 'password',
+          type: 'password',
+          label: 'Password',
+          required: true,
+        },
       ]}
       endpoint="http://localhost:3000/auth/login"
       buttonLabel="Login"

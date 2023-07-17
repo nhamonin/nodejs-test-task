@@ -18,9 +18,14 @@ const Register = () => {
   return (
     <Form
       fields={[
-        { name: 'username', type: 'text', label: 'Username' },
-        { name: 'email', type: 'email', label: 'Email' },
-        { name: 'password', type: 'password', label: 'Password' },
+        { name: 'username', type: 'text', label: 'Username', required: true },
+        { name: 'email', type: 'email', label: 'Email', required: true },
+        {
+          name: 'password',
+          type: 'password',
+          label: 'Password',
+          required: true,
+        },
       ]}
       endpoint="http://localhost:3000/users/register"
       buttonLabel="Register"

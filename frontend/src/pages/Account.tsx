@@ -30,11 +30,12 @@ const Account = () => {
       fields={[
         { name: 'username', type: 'text', label: 'Username' },
         { name: 'email', type: 'email', label: 'Email' },
-        { name: 'avatar', type: 'file', label: 'Avatar URL' },
+        { name: 'avatar', type: 'file', label: 'Avatar File' },
       ]}
-      endpoint="http://localhost:3000/api/update-account" // Update the endpoint with the appropriate API route for updating account data
+      endpoint="http://localhost:3000/api/update-account"
       buttonLabel="Update Account"
       onSuccess={handleAccountUpdateSuccess}
+      multipart
     />
   );
 };
