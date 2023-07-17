@@ -16,7 +16,6 @@ const Login = () => {
     if (!accessToken) return;
 
     setAccessToken(accessToken);
-    localStorage.setItem('access_token', accessToken);
     setLoggedIn(true);
     navigate('/account');
   };
@@ -29,7 +28,7 @@ const Login = () => {
       ]}
       endpoint="http://localhost:3000/auth/login"
       buttonLabel="Login"
-      onSuccess={handleLoginSuccess} // Pass the handler function to handle successful login
+      onSuccess={handleLoginSuccess}
     />
   );
 };

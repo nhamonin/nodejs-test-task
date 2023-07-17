@@ -27,7 +27,7 @@ const Header = () => {
   return (
     <nav className="flex items-center justify-between p-5 bg-blue-500">
       <div className="flex items-center space-x-4">
-        <NavLink to="/" className={'text-2xl font-bold'} end>
+        <NavLink to="/" className={'text-2xl font-bold text-white'} end>
           My App
         </NavLink>
       </div>

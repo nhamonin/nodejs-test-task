@@ -5,6 +5,8 @@ interface IAuthContext {
   accessToken: string;
   setLoggedIn: (value: boolean) => void;
   setAccessToken: (value: string) => void;
+  logout: () => void;
+  isLoading: boolean;
 }
 
 export const AuthContext = createContext<IAuthContext | null>(null);
@@ -16,25 +18,45 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [accessToken, setAccessToken] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const token = window.localStorage.getItem('access_token');
+    const token = localStorage.getItem('access_token');
 
-    if (!token) return;
+    if (token) {
+      setIsLoggedIn(true);
+      setAccessToken(token);
+    }
 
-    setIsLoggedIn(true);
-    setAccessToken(token);
+    setIsLoading(false);
   }, []);
 
+  const handleSetLoggedIn = (value: boolean) => {
+    setIsLoggedIn(value);
+  };
+
+  const handleSetAccessToken = (value: string) => {
+    setAccessToken(value);
+    localStorage.setItem('access_token', value);
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setAccessToken('');
+    localStorage.removeItem('access_token');
+  };
+
+  const authContextValue: IAuthContext = {
+    isLoggedIn,
+    accessToken,
+    setLoggedIn: handleSetLoggedIn,
+    setAccessToken: handleSetAccessToken,
+    logout: handleLogout,
+    isLoading,
+  };
+
   return (
-    <AuthContext.Provider
-      value={{
-        isLoggedIn,
-        accessToken,
-        setLoggedIn: setIsLoggedIn,
-        setAccessToken,
-      }}
-    >
+    <AuthContext.Provider value={authContextValue}>
       {children}
     </AuthContext.Provider>
   );

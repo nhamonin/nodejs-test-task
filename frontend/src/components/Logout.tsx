@@ -8,12 +8,10 @@ const Logout = () => {
   if (!authContext) {
     return null;
   }
-  const { setAccessToken, setLoggedIn } = authContext;
+  const { setAccessToken, setLoggedIn, logout } = authContext;
 
   useEffect(() => {
-    localStorage.removeItem('access_token');
-    setAccessToken('');
-    setLoggedIn(false);
+    logout();
     navigate('/login');
   }, [setAccessToken, setLoggedIn, navigate]);
 
