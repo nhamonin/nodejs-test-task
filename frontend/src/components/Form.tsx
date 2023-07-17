@@ -39,6 +39,7 @@ interface FormProps {
   endpoint: string;
   buttonLabel: string;
   onSuccess: (accessToken?: string, user_id?: string) => void;
+  method?: string;
   multipart?: boolean;
 }
 
@@ -47,6 +48,7 @@ const Form = ({
   endpoint,
   buttonLabel,
   onSuccess,
+  method = 'POST',
   multipart = false,
 }: FormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -82,7 +84,7 @@ const Form = ({
         });
 
         response = await fetch(endpoint, {
-          method: 'POST',
+          method,
           body: data,
         });
       } else {
@@ -91,7 +93,7 @@ const Form = ({
         );
 
         response = await fetch(endpoint, {
-          method: 'POST',
+          method,
           headers: {
             'Content-Type': 'application/json',
           },
@@ -106,8 +108,8 @@ const Form = ({
         };
       } else {
         inputs.forEach((input) => input.reset());
-        const { access_token } = await response.json();
-        onSuccess(access_token || null);
+        const { access_token, user } = await response.json();
+        onSuccess(access_token, user.id);
       }
     } catch (error: any) {
       console.log(error);

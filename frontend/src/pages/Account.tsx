@@ -9,13 +9,13 @@ const Account = () => {
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
 
-  const { isLoggedIn, isLoading } = authContext || {};
+  const { isLoggedIn, isLoading, userId } = authContext || {};
 
   useEffect(() => {
     if (!isLoggedIn && !isLoading) {
       navigate('/login');
     }
-  }, [isLoggedIn, isLoading, navigate]);
+  }, [isLoggedIn, isLoading]);
 
   if (isLoading) {
     return <Loading />;
@@ -32,9 +32,10 @@ const Account = () => {
         { name: 'email', type: 'email', label: 'Email' },
         { name: 'avatar', type: 'file', label: 'Avatar File' },
       ]}
-      endpoint="http://localhost:3000/api/update-account"
+      endpoint={`http://localhost:3000/users/${userId}`}
       buttonLabel="Update Account"
       onSuccess={handleAccountUpdateSuccess}
+      method="PUT"
       multipart
     />
   );
