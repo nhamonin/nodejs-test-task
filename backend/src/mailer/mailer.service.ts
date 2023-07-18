@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import * as sgMail from '@sendgrid/mail';
 
@@ -8,8 +9,11 @@ import { TokenService } from 'src/token/token.service';
 @Injectable()
 export class MailerService {
   private readonly logger = new Logger('MailerService');
-  constructor(private tokenService: TokenService) {
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  constructor(
+    private tokenService: TokenService,
+    private configService: ConfigService,
+  ) {
+    sgMail.setApiKey(this.configService.get<string>('SENDGRID_API_KEY'));
   }
 
   async sendVerificationEmail(user: User) {
@@ -17,11 +21,13 @@ export class MailerService {
       { email: user.email, id: user.id },
       { expiresIn: '1d' },
     );
-    const verificationLink = `${process.env.SERVER_URL}/api/email/verify/${token}`;
+    const verificationLink = `${this.configService.get<string>(
+      'SERVER_URL',
+    )}/api/email/verify/${token}`;
 
     const msg = {
       to: user.email,
-      from: process.env.EMAIL_FROM,
+      from: this.configService.get<string>('EMAIL_FROM'),
       subject: 'Email Verification',
       text: `Please verify your email by clicking on the button below. This link will expire in 24 hours.`,
       html: `

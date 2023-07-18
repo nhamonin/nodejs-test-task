@@ -5,12 +5,14 @@ import {
   UnauthorizedException,
   ForbiddenException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import { Observable } from 'rxjs';
 import * as jwt from 'jsonwebtoken';
 
 @Injectable()
 export class JwtAuthGuard implements CanActivate {
+  constructor(private readonly configService: ConfigService) {}
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
@@ -23,7 +25,10 @@ export class JwtAuthGuard implements CanActivate {
         );
       }
 
-      const decodedToken: any = jwt.verify(token, process.env.JWT_SECRET);
+      const decodedToken: any = jwt.verify(
+        token,
+        this.configService.get<string>('JWT_SECRET'),
+      );
       if (+request.params.id !== decodedToken.id) {
         throw new ForbiddenException(
           'You do not have permission to perform this operation',

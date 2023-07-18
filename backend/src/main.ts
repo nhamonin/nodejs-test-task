@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import * as express from 'express';
 import { Express } from 'express-serve-static-core';
@@ -31,6 +32,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(app.get(ConfigService).get<number>('PORT'));
 }
 bootstrap();

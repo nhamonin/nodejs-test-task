@@ -2,6 +2,7 @@ import { join } from 'node:path';
 import * as fs from 'node:fs/promises';
 
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import * as sharp from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
@@ -14,7 +15,11 @@ import {
 
 @Injectable()
 export class ImageService {
-  private readonly baseUrl = join(process.env.SERVER_URL, 'uploads');
+  constructor(private readonly configService: ConfigService) {}
+  private readonly baseUrl = join(
+    this.configService.get<string>('SERVER_URL'),
+    'uploads',
+  );
   async saveImage(
     userId: number,
     filename: string,
