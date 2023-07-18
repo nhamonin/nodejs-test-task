@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { AuthContext } from '../contexts/AuthProvider';
+import { toast } from 'react-toastify';
 
+import { AuthContext } from '../contexts/AuthProvider';
 import Form from '../components/Form';
 import Loading from '../components/Loading';
 
@@ -53,7 +54,9 @@ const Account = () => {
   }
 
   const handleAccountUpdateSuccess = () => {
-    console.log('Account updated successfully!');
+    toast.success('Account updated successfully!', {
+      position: toast.POSITION.TOP_CENTER,
+    });
   };
 
   return (

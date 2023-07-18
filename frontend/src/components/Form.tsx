@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { ToastContainer } from 'react-toastify';
 
 const useInput = (initialValue: string | FileList | null, type: string) => {
   const [value, setValue] = useState<string | FileList | null>(initialValue);
@@ -71,6 +72,11 @@ const Form = ({
       return;
     }
 
+    if (fields.every((_, i) => !inputs[i].value)) {
+      setMessage('Please fill at least one field');
+      return;
+    }
+
     setIsLoading(true);
     try {
       let response;
@@ -114,6 +120,7 @@ const Form = ({
         };
       } else {
         const { access_token, user_id } = await response.json();
+        setMessage(null);
         onSuccess(access_token, user_id);
       }
     } catch (error: any) {
@@ -132,6 +139,8 @@ const Form = ({
           {message}
         </div>
       )}
+
+      <ToastContainer />
 
       <form className="w-full max-w-sm" onSubmit={handleSubmit}>
         {fields.map((field, i) => (

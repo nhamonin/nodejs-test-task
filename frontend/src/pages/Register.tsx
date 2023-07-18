@@ -1,5 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import { AuthContext } from '../contexts/AuthProvider';
 import Form from '../components/Form';
 
@@ -12,7 +14,13 @@ const Register = () => {
   }
 
   const handleRegisterSuccess = () => {
-    navigate('/login');
+    toast.success('Account created successfully!', {
+      position: toast.POSITION.TOP_CENTER,
+    });
+
+    setTimeout(() => {
+      navigate('/login');
+    }, 3000);
   };
 
   return (

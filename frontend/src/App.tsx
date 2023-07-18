@@ -7,6 +7,7 @@ import Account from './pages/Account';
 import Header from './components/Header';
 import Logout from './components/Logout';
 import { AuthProvider } from './contexts/AuthProvider';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (

@@ -79,6 +79,10 @@ export class UserService {
         throw new ConflictException('User not found');
       }
 
+      if (user.email !== tokenPayload.email) {
+        throw new ConflictException('Token email does not match user email');
+      }
+
       user.isVerified = true;
       await this.usersRepository.save(user);
 
