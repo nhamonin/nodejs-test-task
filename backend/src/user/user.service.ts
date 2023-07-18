@@ -137,11 +137,12 @@ export class UserService {
     }
 
     if (file) {
-      const avatarPath = await this.imageService.saveImage(
+      const uniqueFilename = await this.imageService.saveImage(
+        +userId,
         file.originalname,
         file.buffer,
       );
-      user.avatar = avatarPath;
+      user.avatar = uniqueFilename;
     }
 
     const updatedUser = await this.usersRepository.save(user);

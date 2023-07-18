@@ -12,3 +12,5 @@ export const VALID_FILE_TYPES = [
   'image/bmp',
 ];
 export const IMAGE_UPLOAD_PATH = join(__dirname, '..', '..', 'uploads');
+export const MEDIUM_SIZE = 800;
+export const SMALL_SIZE = 300;
