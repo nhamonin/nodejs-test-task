@@ -32,6 +32,6 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(app.get(ConfigService).get<number>('PORT'));
+  await app.listen(app.get(ConfigService).get<number>('PORT'), '0.0.0.0');
 }
 bootstrap();

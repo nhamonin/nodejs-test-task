@@ -1,7 +1,7 @@
 {
   "name": "nodejs-test-task",
   "version": "1.0.0",
-  "description": "## 1. Research Task",
+  "description": "Node.js test task",
   "main": ".eslintrc.js",
   "scripts": {
     "install": "npm --prefix ./backend install ./backend && npm --prefix ./frontend install ./frontend",
@@ -9,8 +9,13 @@
     "build": "npm --prefix ./backend run build && npm --prefix ./frontend run build && cp ./backend/.env ./backend/dist",
     "start:prod": "npm run build && pm2 start ./backend/dist/main.js --node-args='-r dotenv/config' --name nodejs-test-task"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "nodejs",
+    "nest",
+    "react",
+    "typescript"
+  ],
+  "author": "nhamonin",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^16.3.1",
