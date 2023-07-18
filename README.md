@@ -87,17 +87,15 @@ For every future Express.js project, I recommend incorporating the following add
 
 ### Time spent on this research: 2.5 hours
 
-## 2. User Profile Application Built with Nest.js
+## User Profile Application Built with Nest.js
 
-This section is dedicated to a User Profile application that is built using the [Nest](https://github.com/nestjs/nest) framework.
+This repository contains a User Profile application built with Nest.js, a progressive Node.js framework. The application provides authentication and email verification features, along with a user dashboard where users can update their profile information and set an avatar. The frontend part of the application is also implemented using Node.js.
 
-## Description
-
-The User Profile application is built on the Nest framework, a progressive Node.js framework for building efficient, reliable, and scalable server-side applications. This TypeScript starter repository provides the boilerplate for setting up the application.
+As part of the additional task, avatars are automatically generated in three different sizes: original, medium, and small. You can verify and check this functionality by inspecting the network tab in your browser's developer tools while uploading a new image. The application will make requests to generate and retrieve the avatar images in the respective sizes. You can examine the request responses in the network tab to see the URLs and confirm that the avatars are generated in the expected sizes.
 
 ### Installation
 
-To install the necessary packages to run the application, use the following command:
+To install the necessary dependencies, navigate to the root of the project and run the following command:
 
 ```bash
 npm install
@@ -108,12 +106,18 @@ npm install
 After the installation process, use these commands to run the app:
 
 ```bash
-# development
 $ npm run start
 
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
+
+### Deploying the App
+
+The application is hosted and can be accessed through the following [link](http://185.166.216.70:4322).
+
+### Time Spent
+
+The development of this project took approximately 5 days. It involved learning and implementing Nest.js from scratch, as well as completing the required and additional tasks.
+
+Please feel free to explore the code, provide feedback, and track the time spent on the project.
