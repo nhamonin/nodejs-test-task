@@ -5,12 +5,15 @@ import {
   Put,
   Param,
   UseInterceptors,
+  UseGuards,
   UploadedFile,
+  Get,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { UserService } from './user.service';
 import { ImageUploadValidationPipe } from '../pipes/image-upload-validation.pipe';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -23,7 +26,14 @@ export class UserController {
     return await this.userService.register(createUserDto);
   }
 
+  @Get(':id')
+  @UseGuards(JwtAuthGuard)
+  async findOneById(@Param('id') id: string) {
+    return await this.userService.findOneById(id);
+  }
+
   @Put(':id')
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('avatar'))
   async update(
     @Param('id') id: string,

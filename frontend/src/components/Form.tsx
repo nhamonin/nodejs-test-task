@@ -32,6 +32,7 @@ interface FormField {
   type: string;
   label: string;
   required?: boolean;
+  value?: string;
 }
 
 interface FormProps {
@@ -41,6 +42,7 @@ interface FormProps {
   onSuccess: (accessToken?: string, user_id?: string) => void;
   method?: string;
   multipart?: boolean;
+  token?: string;
 }
 
 const Form = ({
@@ -50,12 +52,13 @@ const Form = ({
   onSuccess,
   method = 'POST',
   multipart = false,
+  token = '',
 }: FormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
 
   const inputs = fields.map((field) =>
-    useInput(field.type === 'file' ? null : '', field.type),
+    useInput(field.value || (field.type === 'file' ? null : ''), field.type),
   );
 
   const handleSubmit = async (
@@ -86,6 +89,9 @@ const Form = ({
         response = await fetch(endpoint, {
           method,
           body: data,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
       } else {
         const data = Object.fromEntries(
@@ -107,7 +113,6 @@ const Form = ({
           status: response.status,
         };
       } else {
-        inputs.forEach((input) => input.reset());
         const { access_token, user_id } = await response.json();
         onSuccess(access_token, user_id);
       }

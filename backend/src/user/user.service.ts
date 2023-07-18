@@ -3,7 +3,6 @@ import {
   ConflictException,
   UnauthorizedException,
   NotFoundException,
-  BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -49,6 +48,18 @@ export class UserService {
     this.mailerService.sendVerificationEmail(savedUser);
 
     return instanceToPlain(savedUser) as User;
+  }
+
+  async findOneById(id: string): Promise<User> {
+    const user = await this.usersRepository.findOne({
+      where: { id: +id },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    return instanceToPlain(user) as User;
   }
 
   async findOneByUsernameOrEmail(usernameOrEmail: string): Promise<User> {

@@ -7,6 +7,7 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { MailerModule } from 'src/mailer/mailer.module';
 import { TokenModule } from 'src/token/token.module';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ImageModule } from '../image/image.module';
 
 @Module({
@@ -17,7 +18,7 @@ import { ImageModule } from '../image/image.module';
     ImageModule,
   ],
   controllers: [UserController, EmailVerificationController],
-  providers: [UserService],
+  providers: [UserService, JwtAuthGuard],
   exports: [UserService, TypeOrmModule],
 })
 export class UserModule {}

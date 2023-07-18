@@ -28,8 +28,8 @@ export class AuthController {
       message: 'User logged in successfully',
       user_id: req.user.id,
       access_token: await this.tokenService.generateJwt(
-        { username: req.user.username, sub: req.user.id },
-        { expiresIn: '60s' },
+        { username: req.user.username, id: req.user.id },
+        { expiresIn: '1h' },
       ),
     };
   }
