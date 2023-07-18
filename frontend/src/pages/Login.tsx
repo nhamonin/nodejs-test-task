@@ -40,7 +40,7 @@ const Login = () => {
           required: true,
         },
       ]}
-      endpoint={`${import.meta.env.VITE_BACKEND_URL}/auth/login`}
+      endpoint="/api/auth/login"
       buttonLabel="Login"
       onSuccess={handleLoginSuccess}
     />

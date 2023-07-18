@@ -35,7 +35,7 @@ const Register = () => {
           required: true,
         },
       ]}
-      endpoint={`${import.meta.env.VITE_BACKEND_URL}/users/register`}
+      endpoint="/api/users/register"
       buttonLabel="Register"
       onSuccess={handleRegisterSuccess}
     />

@@ -17,7 +17,7 @@ export class MailerService {
       { email: user.email, id: user.id },
       { expiresIn: '1d' },
     );
-    const verificationLink = `${process.env.SERVER_URL}/email/verify/${token}`;
+    const verificationLink = `${process.env.SERVER_URL}/api/email/verify/${token}`;
 
     const msg = {
       to: user.email,
