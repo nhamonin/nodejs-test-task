@@ -7,7 +7,7 @@
     "install": "npm --prefix ./backend install ./backend && npm --prefix ./frontend install ./frontend",
     "start:dev": "npm --prefix ./backend run start:dev & npm --prefix ./frontend run dev",
     "build": "npm --prefix ./backend run build && npm --prefix ./frontend run build && cp ./backend/.env ./backend/dist",
-    "start:prod": "npm run build && pm2 start -r dotenv/config ./backend/dist/main.js --name nodejs-test-task"
+    "start:prod": "npm run build && pm2 start ./backend/dist/main.js --node-args='-r dotenv/config' --name nodejs-test-task"
   },
   "keywords": [],
   "author": "",
