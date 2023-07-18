@@ -12,6 +12,8 @@ interface User {
   avatar: string;
 }
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
 const Account = () => {
   const navigate = useNavigate();
   const authContext = useContext(AuthContext);
@@ -30,7 +32,7 @@ const Account = () => {
     const fetchUserData = async () => {
       setUserLoading(true);
       try {
-        const response = await fetch(`http://localhost:3000/users/${userId}`, {
+        const response = await fetch(`${BACKEND_URL}/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${authContext?.accessToken || ''}`,
           },
@@ -77,7 +79,7 @@ const Account = () => {
         { name: 'password', type: 'password', label: 'Password' },
         { name: 'avatar', type: 'file', label: 'Avatar File' },
       ]}
-      endpoint={`http://localhost:3000/users/${userId}`}
+      endpoint={`${BACKEND_URL}/users/${userId}`}
       buttonLabel="Update Account"
       onSuccess={handleAccountUpdateSuccess}
       method="PUT"
