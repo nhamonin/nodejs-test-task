@@ -6,9 +6,12 @@
   "scripts": {
     "install": "npm --prefix ./backend install ./backend && npm --prefix ./frontend install ./frontend",
     "start:dev": "npm --prefix ./backend run start:dev & npm --prefix ./frontend run dev",
-    "start:prod": "npm run install && npm --prefix ./frontend run build && pm2 start ./backend/dist/main.js --name nodejs-test-task"
+    "start:prod": "npm --prefix ./backend run build && npm --prefix ./frontend run build && pm2 start ./backend/dist/main.js --name nodejs-test-task"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "pm2": "^5.3.0"
+  }
 }
